@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: eZBD8Qdmoyy/Kt49IBPSnm+ytN0rzUBoeVXIwJtBNZp31a6Gaauak+3yMENiKebYvMTtPCx4OpeMDSVSf5MQBFK0h9Hl1K8knQYA/CPu1b7SMlnb5rusk51Ptm3cXTM779eB2HUQdwI9pVuqe+8qcJCv4IN+Y/YJhMyX8vqOP2pjmfsXDuM94aTMfjw9pR8Yjt1juovOD1eD3qbeqBDxtTgpqyOLLdZzf11caq/EmCexE7OoZ23/xLQE9KGUqXEB90JWL5JgwcHrkQq5qsk3xvKKnHpi8y7NimohxGlmF/O4pvIi2mQqu0xNu2LyuywN8bfdBEAaid55dzSb4EkBvWR5b4F2xYiV7xoCD/Dwg/cx7lX1KO1BGEQ9pryRLnc+A5mnTZklb8pLmr2Az/wZMu1havArV9cxiUyFuX0B1p8foYOGdcZYCLVzSoSuLvRxSVtFE4WBtZ7dRem0Dknc2PsEw3QZmVQXQcQq9/nKh9MV9g74mHlOzo4mP3aw9paF/VKIL087D2JoAjeDq5gKQKfBJtuwXCUvXbjz9qfcinfh5t/DdEEwF2oVd4Ot1vhBNxqLFCyoIdNExpAx0PH7wjTvIVDKlvEpeo9M+Xx54y0hP1nb6PPKLcDurHuWz3cZLJBKsL0L+GleR/DilPa1ZQaA5i9A8u0zNyNRlxc+gIM=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/Side-Lights-on-Astronomy-and-Kindred-Fields-of-Popular-Science_4065
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
