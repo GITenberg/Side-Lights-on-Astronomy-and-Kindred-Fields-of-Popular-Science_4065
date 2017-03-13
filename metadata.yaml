@@ -1,5 +1,8 @@
 _repo: Side-Lights-on-Astronomy-and-Kindred-Fields-of-Popular-Science_4065
-_version: 0.1.0
+_version: 0.2.0
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Newcomb, Simon
@@ -9,6 +12,8 @@ creator:
     url: http://www.gutenberg.org/2009/agents/1378
     wikipedia: http://en.wikipedia.org/wiki/Simon_Newcomb
 description: ''
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/4065#Side-Lights-on-Astronomy-and-Kindred-Fields-of-Popular-Science
 gutenberg_bookshelf: Astronomy
 gutenberg_issued: '2003-05-01'
 gutenberg_type: Text
